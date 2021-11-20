@@ -2,6 +2,7 @@ from .models import Flight, Reservation
 from .serializers import FlightSerializer, ReservationSerializer
 from rest_framework import viewsets, filters
 from .permissions import IsStaffOrReadOnly
+from datetime import datetime, date
 
 
 class FlightView(viewsets.ModelViewSet):
@@ -15,6 +16,17 @@ class FlightView(viewsets.ModelViewSet):
         if self.request.user.is_staff:
             return super().get_serializer_class()
         return FlightSerializer
+
+    def get_queryset(self):
+        now = datetime.now()
+        current_time = now.strftime('%H:%M:%S')
+        today = date.today()
+        if self.request.is_staff:
+            return super().get_queryset()
+        else:
+            queryset = Flight.objects.filter(dateOfDeparture__gte=today).filter(
+                estimatedTimeOfDeparture__gte=current_time)
+        return queryset
 
 
 class ReservationView(viewsets.ModelViewSet):

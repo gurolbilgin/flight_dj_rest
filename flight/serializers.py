@@ -48,5 +48,5 @@ class StaffFlightSerilaizer(serializers.ModelSerializer):
     class Meta:
         model = Flight
         fields = (
-            'flightNumber', 'operatingAirlines', 'departureCity',  'arrivalCity', 'dateOfDeparture', 'estimatedTimeOfDeparture'
+            'flightNumber', 'operatingAirlines', 'departureCity',  'arrivalCity', 'dateOfDeparture', 'estimatedTimeOfDeparture', 'reservations'
         )
